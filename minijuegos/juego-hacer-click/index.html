@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        body.dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+        #game-container {
+            text-align: center;
+        }
+        #click-button {
+            padding: 20px 40px;
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #af4c4c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        #score, #timer {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>Click Game</h1>
+        <p>Click the button as many times as you can in 30 seconds!</p>
+        <button id="click-button">Click Me</button>
+        <div id="score">Score: 0</div>
+        <div id="timer">Time: 30</div>
+    </div>
+    <script src="src/dark_mode.js"></script>
+    <script>
+        let score = 0;
+        let timeLeft = 30;
+        let timer;
+
+        const scoreElement = document.getElementById('score');
+        const timerElement = document.getElementById('timer');
+        const clickButton = document.getElementById('click-button');
+
+        clickButton.addEventListener('click', () => {
+            if (timeLeft > 0) {
+                score++;
+                scoreElement.textContent = `Score: ${score}`;
+            }
+        });
+
+        function startGame() {
+            score = 0;
+            timeLeft = 30;
+            scoreElement.textContent = `Score: ${score}`;
+            timerElement.textContent = `Time: ${timeLeft}`;
+
+            timer = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = `Time: ${timeLeft}`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    alert(`Game Over! Your score is ${score}`);
+                }
+            }, 1000);
+        }
+
+        startGame();
+    </script>
+</body>
+</html>
