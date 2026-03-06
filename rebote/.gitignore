@@ -1,0 +1,26 @@
+# Archivos de sistema
+Thumbs.db
+Desktop.ini
+
+# IDEs y Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+ENV/
+
+# Grabaciones de juego (opcional, por si quieres mantener el repo limpio)
+rebote_gameplay_*.webm
+rebote_gameplay_*.mp4
+
+# Otros
+.DS_Store
+node_modules/

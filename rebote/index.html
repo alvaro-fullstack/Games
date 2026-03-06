@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Like vs Lemons</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="game-container">
+        <div id="ui-layer">
+            <h1 id="score-display">This video will get <span id="score-text" class="score-highlight">0</span> likes</h1>
+            <div id="cap-text">Cap</div>
+            <div id="game-over-screen" class="hidden">
+                <h2>Game Over</h2>
+                <p>Total Likes: <span id="final-score">0</span></p>
+                <button id="restart-btn">Restart</button>
+            </div>
+        </div>
+        <canvas id="game-canvas"></canvas>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
