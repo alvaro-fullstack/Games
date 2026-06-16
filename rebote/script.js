@@ -326,22 +326,44 @@ function saveVideo() {
         type: selectedMimeType || 'video/webm'
     });
     const url = URL.createObjectURL(blob);
+
+    // Determine extension
+    const extension = (selectedMimeType && selectedMimeType.includes('mp4')) ? 'mp4' : 'webm';
+    const filename = `rebote_gameplay_${new Date().getTime()}.${extension}`;
+
+    console.log("Intentando guardar el video en la carpeta 'videogame' a través del servidor local...");
+    
+    fetch('/upload', {
+        method: 'POST',
+        headers: {
+            'X-Filename': filename,
+            'Content-Type': blob.type
+        },
+        body: blob
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log(`¡Video guardado directamente en la carpeta 'videogame' como: ${filename}!`);
+        } else {
+            console.warn("El servidor no pudo guardar el archivo. Procediendo con descarga local tradicional.");
+            descargarLocalmente(url, filename);
+        }
+    })
+    .catch(error => {
+        console.warn("Servidor local no disponible o error de red. Procediendo con descarga local tradicional.");
+        descargarLocalmente(url, filename);
+    });
+}
+
+function descargarLocalmente(url, filename) {
     const a = document.createElement('a');
     document.body.appendChild(a);
     a.style = 'display: none';
     a.href = url;
-
-    // Determine extension
-    const extension = (selectedMimeType && selectedMimeType.includes('mp4')) ? 'mp4' : 'webm';
-
-    a.download = `rebote_gameplay_${new Date().getTime()}.${extension}`;
+    a.download = filename;
     a.click();
     window.URL.revokeObjectURL(url);
-    console.log(`Video saved as .${extension}!`);
-
-    if (extension === 'webm') {
-        console.warn("TIP: If you can't edit this .webm file, use an online converter like cloudconvert.com to change it to .mp4");
-    }
+    console.log(`Video guardado en Descargas como: ${filename}`);
 }
 
 function endGame() {

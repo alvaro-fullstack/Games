@@ -20,10 +20,26 @@ El juego es una simulación física donde:
 
 ## 🛠️ Cómo usarlo
 
-1. Abre `index.html` en cualquier navegador web moderno.
+### Método 1: Guardado Automático en la carpeta `videogame` (Recomendado)
+Para que los videos se guarden directamente en la carpeta `videogame` de la raíz sin tener que moverlos manualmente:
+1. Ejecuta el servidor local con el siguiente comando en tu terminal:
+   ```bash
+   python server.py
+   ```
+2. Esto abrirá automáticamente el juego en tu navegador (`http://localhost:8000`).
+3. Juega o deja que la simulación termine. Al dar "Game Over", el video se guardará automáticamente en la carpeta `videogame` en formato `.webm`.
+
+### Método 2: Ejecución Directa (Guardado en Descargas)
+Si prefieres no usar el servidor de Python:
+1. Abre `index.html` directamente en tu navegador web.
 2. El juego comenzará automáticamente.
-3. Al perder (Game Over), se descargará automáticamente un archivo de video con la partida grabada.
-4. Si el video se descarga en formato `.webm` y necesitas `.mp4`, puedes usar el script de utilidad incluido.
+3. Al perder (Game Over), el archivo de video se descargará automáticamente en tu carpeta de **Descargas** (Downloads) de tu sistema operativo como antes.
+
+### 🔄 Conversión a MP4
+Si los videos se guardan en formato `.webm` y necesitas `.mp4` con excelente compatibilidad, puedes usar el script de utilidad incluido:
+```bash
+python convert_to_mp4.py
+```
 
 ## 📂 Archivos del Proyecto
 
