@@ -5,9 +5,9 @@ const gameOverScreen = document.getElementById('game-over-screen');
 const finalScoreText = document.getElementById('final-score');
 const restartBtn = document.getElementById('restart-btn');
 
-// Fixed 1080p resolution
-const VIDEO_WIDTH = 1080;
-const VIDEO_HEIGHT = 1920;
+// Fixed 720p resolution (reduced from 1080p to fit in Render's 512MB RAM limit during conversion)
+const VIDEO_WIDTH = 720;
+const VIDEO_HEIGHT = 1280;
 // Vertical format like TikTok/Shorts based on the image functionality
 // Wait, the image shows a square-ish or portrait video. 1080x1920 is standard for "shorts".
 // But the user said "1080p". Usually means 1920x1080 (landscape) or 1080x1920 (portrait).
@@ -25,7 +25,7 @@ let isGameOver = false;
 let mediaRecorder;
 let recordedChunks = [];
 let selectedMimeType = "";
-const stream = canvas.captureStream(60); // 60 FPS
+const stream = canvas.captureStream(30); // 30 FPS (saves half the file size and RAM during conversion)
 
 // Game constants (Scale them up for high res)
 const GRAVITY = 0.4; // Slower gravity (was 0.8)
@@ -39,7 +39,7 @@ const likeIcon = {
     y: 0,
     vx: 0,
     vy: 0,
-    radius: 80, // Larger for 1080p
+    radius: 55, // Scaled down for 720p (was 80 for 1080p)
     color: '#1877F2',
     draw: function () {
         ctx.save();
@@ -438,43 +438,43 @@ function drawUI() {
     ctx.textAlign = 'center';
 
     // Score Text
-    ctx.font = 'bold 50px Inter, sans-serif';
+    ctx.font = 'bold 35px Inter, sans-serif';
     const textPart1 = "This video will get ";
     const textPart2 = score.toLocaleString();
     const textPart3 = " likes";
 
     // Measure to center the whole block
-    ctx.font = 'bold 50px Inter, sans-serif'; // Normal part
+    ctx.font = 'bold 35px Inter, sans-serif'; // Normal part
     const m1 = ctx.measureText(textPart1).width;
     const m3 = ctx.measureText(textPart3).width;
-    ctx.font = '900 60px Inter, sans-serif'; // Score part
+    ctx.font = '900 42px Inter, sans-serif'; // Score part
     const m2 = ctx.measureText(textPart2).width;
 
     const totalWidth = m1 + m2 + m3;
     let currentX = (width - totalWidth) / 2;
-    const topY = 300; // Position from top
+    const topY = 200; // Positioned proportionally from top (was 300)
 
     // Draw Part 1
     ctx.fillStyle = 'white';
-    ctx.font = 'bold 50px Inter, sans-serif';
+    ctx.font = 'bold 35px Inter, sans-serif';
     ctx.textAlign = 'left';
     ctx.fillText(textPart1, currentX, topY);
     currentX += m1;
 
     // Draw Score
     ctx.fillStyle = '#ffd700';
-    ctx.font = '900 60px Inter, sans-serif';
+    ctx.font = '900 42px Inter, sans-serif';
     ctx.fillText(textPart2, currentX, topY);
     currentX += m2;
 
     // Draw Part 2
     ctx.fillStyle = 'white';
-    ctx.font = 'bold 50px Inter, sans-serif';
+    ctx.font = 'bold 35px Inter, sans-serif';
     ctx.fillText(textPart3, currentX, topY);
 
     // Cap Text
     ctx.fillStyle = 'white';
-    ctx.font = '500 70px Inter, sans-serif';
+    ctx.font = '500 50px Inter, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText("Cap", width / 2, height / 2 - 80);
 

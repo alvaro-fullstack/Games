@@ -71,8 +71,8 @@ def process_video_async(webm_path_str, filename):
         '-i', str(webm_path),
         '-c:v', 'libx264',
         '-c:a', 'aac',
-        '-preset', 'medium',
-        '-crf', '23',
+        '-preset', 'veryfast',      # Codificación ultrarrápida que consume muchísima menos memoria RAM
+        '-crf', '28',               # Nivel de compresión optimizado para bajo peso de archivo
         '-y',
         str(mp4_path)
     ]
