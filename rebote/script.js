@@ -25,7 +25,7 @@ let isGameOver = false;
 let mediaRecorder;
 let recordedChunks = [];
 let selectedMimeType = "";
-const stream = canvas.captureStream(30); // 30 FPS (saves half the file size and RAM during conversion)
+const stream = canvas.captureStream(60); // 60 FPS (probando si soporta fluidez máxima en 720p dentro del límite de Render)
 
 // Game constants (Scale them up for high res)
 const GRAVITY = 0.4; // Slower gravity (was 0.8)
