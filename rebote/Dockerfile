@@ -21,8 +21,8 @@ RUN mkdir -p videogame
 # Exponer el puerto
 EXPOSE 8000
 
-# Puerto predeterminado (Render suele asignar el puerto dinámicamente mediante $PORT)
-ENV PORT=8000
+# Habilitar la salida instantánea de logs en Docker/Render
+ENV PYTHONUNBUFFERED=1
 
-# Comando para arrancar el servidor con gunicorn
-CMD gunicorn --bind 0.0.0.0:$PORT app:app
+# Comando para arrancar el servidor con gunicorn capturando los prints de la app
+CMD gunicorn --bind 0.0.0.0:$PORT --capture-output --log-level info app:app
