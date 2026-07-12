@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: like-vs-lemons
+    env: docker
+    plan: free
+    envVars:
+      - key: TELEGRAM_TOKEN
+        sync: false # Deberás configurarlo en la web de Render con tu Token de Telegram
+      - key: TELEGRAM_CHAT_ID
+        sync: false # Deberás configurarlo en la web de Render con tu Chat ID de Telegram
+      - key: KEEP_LOCAL_FILES
+        value: "false" # Cambiar a "true" si por alguna razón quieres persistir los archivos en disco

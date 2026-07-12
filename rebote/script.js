@@ -286,6 +286,7 @@ function checkCollision(ball, lemon) {
 
 function startRecording() {
     recordedChunks = [];
+    showStatusMessage("🔴 Grabando gameplay...", 'rgba(255, 0, 0, 0.6)');
 
     const types = [
         'video/mp4;codecs=h264',
@@ -306,6 +307,7 @@ function startRecording() {
         }
     } catch (e) {
         console.error("MediaRecorder failed:", e);
+        showStatusMessage("⚠️ Error: Grabación no soportada", 'rgba(255, 0, 0, 0.8)', 5000);
         return;
     }
 
@@ -332,6 +334,7 @@ function saveVideo() {
     const filename = `rebote_gameplay_${new Date().getTime()}.${extension}`;
 
     console.log("Intentando guardar el video en la carpeta 'videogame' a través del servidor local...");
+    showStatusMessage("📤 Guardando video en la nube...", 'rgba(24, 119, 242, 0.8)');
     
     fetch('/upload', {
         method: 'POST',
@@ -344,13 +347,16 @@ function saveVideo() {
     .then(response => {
         if (response.ok) {
             console.log(`¡Video guardado directamente en la carpeta 'videogame' como: ${filename}!`);
+            showStatusMessage("✅ ¡Guardado en la nube! Revisa tu Telegram.", 'rgba(50, 205, 50, 0.9)', 6000);
         } else {
             console.warn("El servidor no pudo guardar el archivo. Procediendo con descarga local tradicional.");
+            showStatusMessage("⚠️ Falló subida. Guardando en descargas...", 'rgba(255, 140, 0, 0.9)', 5000);
             descargarLocalmente(url, filename);
         }
     })
     .catch(error => {
         console.warn("Servidor local no disponible o error de red. Procediendo con descarga local tradicional.");
+        showStatusMessage("⚠️ Servidor desconectado. Guardando en descargas...", 'rgba(255, 140, 0, 0.9)', 5000);
         descargarLocalmente(url, filename);
     });
 }
@@ -364,6 +370,40 @@ function descargarLocalmente(url, filename) {
     a.click();
     window.URL.revokeObjectURL(url);
     console.log(`Video guardado en Descargas como: ${filename}`);
+}
+
+// Helper para mostrar mensajes de estado visuales en móviles (útil cuando la terminal no está visible)
+function showStatusMessage(text, color = 'rgba(0, 0, 0, 0.7)', duration = 0) {
+    let statusDiv = document.getElementById('upload-status-overlay');
+    if (!statusDiv) {
+        statusDiv = document.createElement('div');
+        statusDiv.id = 'upload-status-overlay';
+        statusDiv.style.position = 'fixed';
+        statusDiv.style.bottom = '10%';
+        statusDiv.style.left = '50%';
+        statusDiv.style.transform = 'translateX(-50%)';
+        statusDiv.style.padding = '16px 28px';
+        statusDiv.style.borderRadius = '30px';
+        statusDiv.style.color = 'white';
+        statusDiv.style.fontFamily = 'Inter, sans-serif';
+        statusDiv.style.fontWeight = 'bold';
+        statusDiv.style.fontSize = '24px';
+        statusDiv.style.zIndex = '10000';
+        statusDiv.style.textAlign = 'center';
+        statusDiv.style.boxShadow = '0 8px 24px rgba(0,0,0,0.6)';
+        statusDiv.style.pointerEvents = 'none';
+        statusDiv.style.transition = 'all 0.3s ease';
+        document.body.appendChild(statusDiv);
+    }
+    statusDiv.style.backgroundColor = color;
+    statusDiv.style.display = 'block';
+    statusDiv.innerText = text;
+    
+    if (duration > 0) {
+        setTimeout(() => {
+            statusDiv.style.display = 'none';
+        }, duration);
+    }
 }
 
 function endGame() {
